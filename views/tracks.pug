@@ -1,0 +1,39 @@
+extends layout 
+
+
+block content 
+
+    
+    form(class="uk-flex-center uk-grid-small uk-child-width-1-2@s uk-child-width-1-3@m" uk-grid)
+        input.uk-input(placeholder="Search track..." id="filterInput" onChange="filterTracks()" value="")
+    div(id="tracksWrapper" class="uk-flex-center uk-grid-small uk-child-width-1-2@s uk-child-width-1-3@m" uk-grid)
+        each track in tracks 
+            a.card.uk-card.uk-card-large.uk-card-body.uk-background-cover(style=`background-image: url('/dist/images/${track.id}.png')` href=`/tracks/${track.id}`)
+                h3= track.name 
+                p= track.cup
+
+    script.
+        const tracks = !{JSON.stringify(tracks)}
+        const input = document.querySelector('#filterInput')
+        const tracksWrapper = document.querySelector('#tracksWrapper')
+        input.addEventListener('keyup', filterTracks)
+
+        function filterTracks(e){
+            const regexp = new RegExp(e.target.value, 'i')
+            const filtered = tracks.filter(track => regexp.test(track.name))
+            tracksWrapper.innerHTML = ''
+            filtered.map(track => {
+                const anchor = document.createElement('a')
+                anchor.innerHTML = `<h3>${track.name}</h3><p>${track.cup}</p>`
+                anchor.className = 'card uk-card uk-card-large uk-card-body uk-background-cover'
+                anchor.setAttribute('href', `/tracks/${track.id}`)
+                anchor.setAttribute('style', `background-image: url('/dist/images/${track.id}.png')`)
+                tracksWrapper.appendChild(anchor)
+
+            })
+            
+        }
+
+
+        
+

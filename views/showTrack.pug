@@ -1,0 +1,255 @@
+extends layout 
+
+block content 
+    - const edge = h.getDominance(races)
+    - const jamesWins = h.getWins(races, 'jamesPos')
+    - const milesWins = h.getWins(races, 'milesPos')
+
+    - const jamesSec = h.getSecond(races, 'jamesPos')
+    - const milesSec = h.getSecond(races, 'milesPos')
+
+    - const milesThird = h.getThird(races, 'milesPos')
+    - const jamesThird = h.getThird(races, 'jamesPos')
+
+    - const jamesPods = h.getPodiums(races, 'jamesPos')
+    - const milesPods = h.getPodiums(races, 'milesPos')
+
+    - const jamesMid = h.getMid(races, 'jamesPos')
+    - const milesMid = h.getMid(races, 'milesPos')
+
+    - const jamesBot = h.getBottomHalf(races, 'jamesPos')
+    - const milesBot = h.getBottomHalf(races, 'milesPos')
+
+    - const jamesAvg = h.getAverage(races, 'jamesPos')
+    - const milesAvg = h.getAverage(races, 'milesPos')
+
+    - const lastThree = races.slice(races.length -3)
+
+
+
+
+    .showTrack 
+        .title.uk-height-small.uk-flex.uk-flex-center.uk-flex-middle.uk-background-cover.uk-light(data-src=`/dist/images/${track.id}.png` uk-img='')
+            h2(style="color: black")= track.name
+        progress.uk-progress(value=edge max='100')
+        .tableWrapper.uk-container-large.uk-overflow-auto
+            table.uk-table.uk-table-divider.uk-table-middle.tac#charts
+                thead
+                    tr
+                        th.james(style="text-align: center") James
+                        th(style="text-align: center") #{races.length} races
+                        th.miles(style="text-align: center") Miles
+                tbody
+                    tr
+                        td.james= jamesWins 
+                        td Wins
+                        td.miles= milesWins
+                    tr
+                        td.james= jamesPods 
+                        td Podiums
+                        td.miles= milesPods
+                    tr
+                        td.james= jamesMid 
+                        td 4th - 6th
+                        td.miles= milesMid
+                    tr
+                        td.james= jamesBot
+                        td Worse than 7th
+                        td.miles= milesBot
+                    tr
+                        td.james= jamesAvg
+                        td Average
+                        td.miles= milesAvg
+                    tr
+                        td.james= h.getForm(lastThree, 'jamesPos')
+                        td Last 3 
+                        td.miles= h.getForm(lastThree, 'milesPos')
+        
+
+            hr
+            ul.uk-subnav.uk.uk-flex-center(uk-switcher='')
+                li
+                    a.uk-button.uk-button-default Results chart
+                li
+                    a.uk-button.uk-button-default  Finishes Breakdown
+         
+            ul.uk-switcher.uk-margin
+                li
+                    canvas.chart#lineChart(width="300" height="300")
+
+                li
+                    canvas.chart#finishesChart(width="300" height="300")
+
+
+
+
+
+            //- div.uk-flex-center(uk-grid)
+            //-     div.tac
+            //-         caption Results Chart
+            //-         canvas.chart#lineChart(width="300" height="300")
+            //-         hr
+            //-     div.tac 
+            //-         caption James Breakdown
+            //-         canvas.chart#jamesPie(width="300" height="300")
+            //-         hr
+            //-     div.tac
+            //-         caption Miles Breakdown
+            //-         canvas.chart#milesPie(width="300" height="300")
+            //-         hr
+
+
+
+        script(type="text/javascript").
+            const myRaces = !{JSON.stringify(races)}
+
+            function getAllResults(person){
+                let results = []
+                for(let i = 1; i < 13; i++) {
+                    const total = myRaces.filter(race => race[person] === i).length
+                    results.push(total)
+                }
+                console.log(results)
+                return results
+            }
+
+            
+
+
+
+            const jamesWins = !{JSON.stringify(jamesWins)}.split(' ')[0]
+            const jamesSec = !{JSON.stringify(jamesSec)}.split(' ')[0]
+            const jamesThird = !{JSON.stringify(jamesThird)}.split(' ')[0]
+            const jamesMid = !{JSON.stringify(jamesMid)}.split(' ')[0]
+            const jamesBot = !{JSON.stringify(jamesBot)}.split(' ')[0]
+
+            const milesWins = !{JSON.stringify(milesWins)}.split(' ')[0]
+            const milesSec = !{JSON.stringify(milesSec)}.split(' ')[0]
+            const milesThird = !{JSON.stringify(milesThird)}.split(' ')[0]
+            const milesMid = !{JSON.stringify(milesMid)}.split(' ')[0]
+            const milesBot = !{JSON.stringify(milesBot)}.split(' ')[0]
+            
+            const miles = myRaces.map(race => race.milesPos)
+            const james = myRaces.map(race => race.jamesPos)
+            const comps = myRaces.map(race => race.date)
+
+
+            const line = document.getElementById('lineChart')
+            const myChart = new Chart(line, {
+            type: 'line',
+            data: {
+                labels: comps,
+                datasets: [{
+                    label: 'James',
+                    data: james,
+                    backgroundColor: [
+                    'rgba(255,10,10,0.2)',
+    
+                    ],
+                    borderColor: [
+                        'rgba(255,10,10,0.4)',
+                    ],
+                    borderWidth: 2
+                },
+                {
+                    label: 'Miles',
+                    data: miles,
+                    backgroundColor: [
+                    'rgba(10,255,10,0.3)',
+        
+                    ],
+                    borderColor: [
+                    'rgba(10,255,10,0.4)',
+            
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                scaleShowValues: true,
+                scales: {
+                    y: {
+                        label: 'Position',
+                        ticks: {
+                        stepSize: 1,
+
+                        },
+                        
+                        beginAtZero: false,
+                        min: 1,
+                        max: 12,
+                        reverse: true,
+                    }
+                },
+                x: {
+
+                },
+                animation: {
+                    duration: 0
+                },
+            }
+            });
+
+            line.addEventListener('click', function(e) {
+                const tooltip = myChart.tooltip.title[0]
+                if (!tooltip) return 
+                const comp = myRaces.filter(race => race.date === tooltip)[0]
+                window.location.href = `/comps/${comp.compID}`
+            })
+
+
+            const positions = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th']
+            //- const jamesWins = h.getWins(myRaces, 'jamesPos')
+
+
+            const finishesChart = document.querySelector('#finishesChart')
+            // PIE CHART TO SHOW FINISHING POSITIONS
+            const barChart = new Chart(finishesChart, {
+                  type: 'bar',
+                    data: {
+                        labels: positions,
+                        datasets: [
+                            {
+                            label: 'James',
+                            data: getAllResults('jamesPos'),
+                            borderColor: 'rgba(255,10,10,0.4)',
+                            backgroundColor: [
+                                'rgba(255,10,10,0.4)'
+    
+                                ],
+                            },
+                            {
+                            label: 'Miles',
+                            data: getAllResults('milesPos'),
+                            borderColor: 'rgba(10,255,10,0.4)',
+                            backgroundColor: 'rgba(10,255,10,0.4)',
+                            }
+                        ]
+                        },
+                    options: {
+                        scales: {
+                            y: {
+                                label: 'Position',
+                                ticks: {
+                                stepSize: 1,
+
+                                },
+                                
+                                //- beginAtZero: true,
+                                min: 0,
+                                max: 12,
+                                reverse: false,
+                            }
+                        },
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: false,
+                                text: 'Chart.js Bar Chart'
+                            }
+                        }
+                    },
+            })

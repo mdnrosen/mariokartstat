@@ -1,0 +1,70 @@
+extends layout 
+
+
+block content 
+    - const data = h.getPlayerData(player)
+    - const winless = h.getWinless(results)
+    - const bestTrack = h.getBest(results)
+    - const worstTrack = h.getWorst(results)
+    - const mostWins = h.getWinningest(results)
+    //- - console.log(player)
+    //- - console.log(h.getBest(races, `${player}Pos`))
+    .profile
+        .trackRow 
+            .uk-card.uk-card-default.uk-grid-collapse.uk-margin(class='uk-child-width-1-2@s' uk-grid)
+                .uk-card-media-left.uk-cover-container
+                    img(src=data.image alt='' uk-cover)
+                    canvas(width='600' height='400')
+                div
+                    .uk-card-body
+                        h1.uk-card-title= data.character
+                        p= data.bike
+                        
+                        hr
+                        dl.uk-description-list.uk-description-list-divider
+                            dt 
+                                strong Races
+                            dd= races.length
+
+                            dt 
+                                strong Wins
+                            dd= h.getWins(races, `${player}Pos`)
+
+                            dt 
+                                strong Podiums
+                            dd= h.getPodiums(races, `${player}Pos`)
+
+                            dt 
+                                strong Career Points
+                            dd= h.totalPoints(comps, `${player}Score`)
+      
+     
+
+            .uk-grid-small.uk-grid-match(class='uk-child-width-1-3@m' uk-grid)
+                div
+                    .uk-card.uk-card-secondary.uk-card-body
+                        h3.uk-card-title Strongest Track
+                        p
+                            a(href=`/tracks/${bestTrack.id}`)= bestTrack.name
+                div
+                    .uk-card.uk-card-default.uk-card-body
+                        h3.uk-card-title Weakest Track
+                        p
+                            a(href=`/tracks/${worstTrack.id}`)= worstTrack.name
+                div
+                    .uk-card.uk-card-primary.uk-card-body
+                        h3.uk-card-title Most wins at a track
+                        each track in mostWins 
+                            p
+                                a(href=`/tracks/${track.id}`)= `${track.name} (${track.wins})`
+                div
+                    .uk-card.uk-card-default.uk-card-body
+                        h3.uk-card-title Winless Tracks
+                        each track in winless 
+                            p 
+                                a(href=`/tracks/${track.id}`)= track.name
+                        
+
+            
+
+

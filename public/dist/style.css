@@ -1,0 +1,128 @@
+.trackListWrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+body {
+    padding: 20px;
+}
+
+
+
+h1, h2, h3, p {
+    margin: 0 !important;
+}
+
+
+a {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.tac {
+    text-align: center;
+}
+
+
+.card, .title {
+    margin: 5px !important;
+    background-color: rgba(255, 255, 255, 0.7);
+    background-blend-mode: overlay;
+}
+
+
+.tableWrapper {
+    margin: 0 auto;
+}
+
+
+
+.card:hover {
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0.9);
+
+
+}
+
+.center {
+    margin: 0 auto;
+}
+progress {
+    color: white;
+    opacity: 0.2;
+  }
+  
+  progress::-moz-progress-bar {
+    background: white;
+  }
+
+progress::-webkit-progress-value {
+    background: #ff0a0a !important;
+  }
+
+
+  progress::-webkit-progress-bar {
+    background: rgba(10,255,10,1) !important;
+  }
+
+.james {
+    background-color: rgba(255,10,10,0.2);
+}
+
+.miles {
+    background-color: rgba(10,255,10,0.2);
+}
+
+
+table {
+    width: 100%;
+}
+
+
+.showTrack {
+    width: 60%;
+    margin: 10px auto;
+}
+
+
+@media screen and (max-width: 900px) {
+    .showTrack {
+        width: 80%;
+    }
+  }
+@media screen and (max-width: 600px) {
+    .showTrack {
+        width: 100%;
+        margin: 5px auto;
+    }
+}
+
+
+.gold {
+    background-color: 	rgba(255,215,0, 0.6)
+}
+
+.silver {
+    background-color: rgba(192,192,192,0.6);
+}
+
+.bronze {
+    background-color: rgba(176, 141, 87, 0.6);
+}
+
+.mid {
+    background-color: rgba(10,255,10,0.3)
+}
+
+
+.bottom {
+    background-color: rgba(255,10,10,0.5)
+}

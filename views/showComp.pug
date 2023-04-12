@@ -1,0 +1,36 @@
+extends layout 
+
+
+block content 
+    - const jamesScore = races[0].jamesScore
+    - const milesScore = races[0].milesScore
+    - const date = races[0].date
+
+
+    .showComp 
+        .showTrack.uk-container-large.uk-overflow-auto
+            table.uk-table.uk-table-divider.uk-table-small.uk-table-middle.tac
+                thead 
+                    tr 
+                        th(style="text-align: center") James
+                        th(style="text-align: center")= date
+                        th(style="text-align: center") Miles
+                tbody 
+                    each race in races
+                        tr 
+                            td(class=h.getBG(race.jamesPos))= h.formatPos(race.jamesPos)
+                            td 
+                                a(href=`/tracks/${race.trackID}`)
+                                    p= race.name
+                            td(class=h.getBG(race.milesPos))= h.formatPos(race.milesPos)
+                            
+                    tr 
+                        td
+                            h3= jamesScore 
+                        td 
+                        td
+                            h3= milesScore
+
+   
+
+

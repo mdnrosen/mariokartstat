@@ -1,0 +1,14 @@
+extends layout 
+
+
+block content 
+    .showTrack
+        .uk-grid-match.uk-grid-small(class='uk-child-width-1-2@s' uk-grid='')
+            each comp in comps 
+                a.uk-card.uk-card-default.uk-card-body(href=`/comps/${comp.compID}`)
+                    h3.uk-card-title.tac= comp.date
+
+
+
+
+                
